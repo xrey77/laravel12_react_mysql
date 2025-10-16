@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ReactDOM from 'react-dom';
-import { QRCodeSVG } from 'qrcode.react';
 import jQuery from 'jquery';
-import CryptoJS from 'crypto-js';
+import Footer from '../components/Footer';
 
 const mfaApi = axios.create({
   baseURL: "http://127.0.0.1:8000",
@@ -62,7 +60,6 @@ export default function Profile() {
     const [showpwd, setShowPwd] = useState<boolean>(false);
     const [showupdate, setShowUpdate] = useState<boolean>(false);
     const [qrcodeurl, setQrcodeurl] = useState<string>('');
-    const [plainText, setPlainText] = useState<string>('');
 
     const fetchUserData = (id: any, token: any) => {
         api.get<Userdata>(`/api/getuserid/${id}`,{headers: {
@@ -395,6 +392,11 @@ export default function Profile() {
             <div className="w-100 text-danger">{profileMsg}</div>
         </div>
         </div>
+        {showmfa ? (
+            <Footer/>
+        ): (
+            <div className="fixed-bottom"><Footer/></div>
+        )}
     </div>    
   )
 }

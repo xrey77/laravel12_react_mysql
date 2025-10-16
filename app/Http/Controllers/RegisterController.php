@@ -25,23 +25,15 @@ class RegisterController extends Controller
         $username = $request->username;
         $password = Hash::make($request->password);
 
-        // $emailUser = User::where('email', $email)->first();
-        // if ($emailUser) {
-        //     return response()->json(['statuscode' => 400, 'message' => 'Email Address is already taken.']);            
-        // }
+        $emailUser = User::where('email', $email)->first();
+        if ($emailUser) {
+            return response()->json(['message' => 'Email Address is already taken.'],400);
+        }
 
-        // $userName = User::where('username', $username)->first();
-        // if ($userName) {
-        //     return response()->json(['statuscode' => 400, 'message' => 'Username is already taken.']);            
-        // }
-
-        // Auth:login()
-        // $secret = encrypt($user->two_factor_secret);
-        // $user->two_factor_secret = $secret;
-        // $user->two_factor_recovery_codes = $recovery_code;
-        // $user->save();                    
-
-
+        $userName = User::where('username', $username)->first();
+        if ($userName) {
+            return response()->json(['message' => 'Username is already taken.'],400);
+        }
 
         try {
             User::create ([
@@ -65,20 +57,17 @@ class RegisterController extends Controller
         if (Hash::check($request->password, $user->password)) {
             Auth::attempt($credentials);
             $secret = encrypt($user->two_factor_secret);        
-            // $recovery_code = encrypt($user->two_factor_recovery_codes);
             $user->two_factor_secret = $secret;
-            // $user->two_factor_recovery_codes = $recovery_code;
             $user->save();                    
         }
         
         return response()->json([
-            'statuscode' => 201,
             'message' => 'User registered successfully.',
             'firstname' => $firstname,
             'lastname' => $lastname,
             'email'=> $email,
             'mobile' => $mobile,
             'username' => $username,
-            'password' => $password]);
+            'password' => $password],201);
     }
 }

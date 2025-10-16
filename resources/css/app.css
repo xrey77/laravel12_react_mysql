@@ -1,14 +1,28 @@
+body {
+    margin-top: -10px;
+}
 .user {
     width: 40px;
     height: 40px;
     border-radius: 40px;
 }
-
+.logo {
+    width: 120px;
+    height: 30px;
+}
 #userpic {
     width: 150px;
     height: 150px;
     border-radius: 20px;
 }
+.embossed {
+    background-color: #666666;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: #f0f0f0;
+    text-shadow: 1px 4px 4px #555555;
+  }
+  
 .qrCode1 {
     width: 200px;
     height: 200px;
@@ -17,4 +31,55 @@
 .qrCode2 {
     width: 200px;
     height: 200px;
+}
+
+#offcanvasWithBothOptions {
+    width: 60% !important;
+  }
+  .footer {
+    margin-top: 10px !important
+  }
+  .carousel-inner .carousel-item img {
+    position: relative;
+    width: 100% !important;
+    height: 525px;
+    object-fit: cover;
+  }
+  
+  .carousel-indicators [data-bs-target] {
+    box-sizing: content-box;
+    flex: 0 1 auto;
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0;
+    margin-right: 3px;
+    margin-left: 3px;
+    text-indent: -999px;
+    border-radius: 60% !important;
+    cursor: pointer;
+    background-color: #fefafa;
+    background-clip: padding-box;
+    border: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    opacity: 0.9;
+    transition: opacity .6s ease;
+  }
+  .about {
+    width: 100% !important;
+    border-radius: 20px;
+  }
+  .about-text {
+    text-align: justify;
+  }
+
+  .contact {
+    width: 100% !important;
+    border-radius: 20px;
+  }
+.contact-text {
+    font-size: 12px;
+}
+.home-text {
+    text-align: justify;
 }

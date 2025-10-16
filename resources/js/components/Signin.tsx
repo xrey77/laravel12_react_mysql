@@ -92,7 +92,7 @@ export default function Signin() {
             </div>            
             <button type="submit" className="btn btn-primary mx-1" disabled={isdisable}>signin</button>
             <button id="loginReset" type="reset" onClick={resetLogin} className="btn btn-primary">reset</button>
-            <button id="mfa" type="button" className="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#staticMfa">mfa</button>            
+            <button id="mfa" type="button" className="btn btn-primary mx-1 d-none" data-bs-toggle="modal" data-bs-target="#staticMfa">mfa</button>            
         </form>
       </div>
       <div className="modal-footer">

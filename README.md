@@ -1,3 +1,18 @@
+<h1>Laravel 12, Vite + React and MySQL Backend Start-up Project</h1>
+<p>
+<h5>Dependencies</h5>
+<p>1. node 23.5.0</p>
+<p>2. npm 11.1.0</p>
+</p>
+<p>
+<h5>Features:</h5>
+    <p>1. RESTful API integration from Front-End</p>
+    <p>2. Custom Login, Logout and Account Registration</p>
+    <p>3. Multi-Factor Authenticator- MFA</p>
+    <p>4. Users' Profile, Change Password, Disable/Enable MFA and Upload User Profile Picture </p>
+    <p>5. Products List, Catalogs Custom Pagination and Product Search </p>
+</p>
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

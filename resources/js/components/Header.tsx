@@ -39,8 +39,9 @@ export default function Header() {
     <>
 <nav className="navbar navbar-expand-lg bg-body-tertiary">
   <div className="container-fluid">
-    <Link className="navbar-brand" href="/">Navbar</Link>
-    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <Link className="navbar-brand" href="/"><img className="logo" src="/images/logo.png" alt=""/></Link>
+    {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> */}
+    <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">   
       <span className="navbar-toggler-icon"></span>
     </button>
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -53,10 +54,10 @@ export default function Header() {
             Products
           </a>
           <ul className="dropdown-menu">
-            <li><a className="dropdown-item" href="#">Products List</a></li>
-            <li><a className="dropdown-item" href="#">Products Catalog</a></li>
+            <li><Link className="dropdown-item" href="/productlist">Products List</Link></li>
+            <li><Link className="dropdown-item" href="/productcatalog">Products Catalog</Link></li>
             <li><hr className="dropdown-divider"/></li>
-            <li><a className="dropdown-item" href="#">Product Search</a></li>
+            <li><Link className="dropdown-item" href="/productsearch">Product Search</Link></li>
           </ul>
         </li>
         <li className="nav-item">
@@ -90,19 +91,19 @@ export default function Header() {
 </nav>
 {/*  OFF-CANVAS */}
 <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex={-1} id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-    <div className="offcanvas-header bg-success">
+    <div className="offcanvas-header bg-primary">
       <h5 className="offcanvas-title text-white" id="offcanvasWithBothOptionsLabel">Drawer Menu</h5>
       <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>    
       </div>
-    <div className="offcanvas-body">
+    <div className="offcanvas-body bg-danger">
   
       <ul className="nav flex-column">
         <li className="nav-item" data-bs-dismiss="offcanvas">
-          <Link className="nav-link text-dark embossed " href="/#">About Us</Link>
+          <Link className="nav-link text-white embossed " href="/about">About Us</Link>
         </li>
         <li><hr/></li>
         <li className="nav-item dropdown">
-          <Link className="nav-link dropdown-toggle text-dark embossed" href="/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <Link className="nav-link dropdown-toggle text-white embossed" href="/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Products
           </Link>
           <ul className="dropdown-menu">
@@ -118,18 +119,18 @@ export default function Header() {
         <li><hr/></li>
   
         <li className="nav-item" data-bs-dismiss="offcanvas">
-          <Link className="nav-link text-dark embossed" href="/#">Contact</Link>  
+          <Link className="nav-link text-white embossed" href="/contact">Contact</Link>  
         </li>
         <li><hr/></li>
 
         { username === '' ? (
         <ul className="nav flex-column">  
         <li data-bs-dismiss="offcanvas" className="nav-item">
-          <Link className="nav-link text-dark embossed" aria-current="page" href="/#" data-bs-toggle="modal" data-bs-target="#staticLogin">Login</Link>
+          <Link className="nav-link text-white embossed" aria-current="page" href="/#" data-bs-toggle="modal" data-bs-target="#staticLogin">Login</Link>
         </li>
         <li><hr/></li>
         <li data-bs-dismiss="offcanvas" className="nav-item">
-          <Link className="nav-link text-dark embossed" aria-current="page" href="/#" data-bs-toggle="modal" data-bs-target="#staticRegister">Register</Link>
+          <Link className="nav-link text-white embossed" aria-current="page" href="/#" data-bs-toggle="modal" data-bs-target="#staticRegister">Register</Link>
         </li>     
         <li><hr/></li>                 
         </ul>
@@ -138,7 +139,7 @@ export default function Header() {
         <ul className="nav">  
           <li className="nav-item dropdown">
             <Link className="nav-link dropdown-toggle" href="/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img className="user" src={userpic} alt=""/>&nbsp;<span className="text-dark embossed"> {username}</span>
+              <img className="user" src={userpic} alt=""/>&nbsp;<span className="text-white embossed"> {username}</span>
             </Link>
             <ul className="dropdown-menu">
               <li data-bs-dismiss="offcanvas">

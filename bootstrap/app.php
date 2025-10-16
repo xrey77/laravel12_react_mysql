@@ -17,9 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);        
         // $middleware->validateCsrfTokens(except: [
         //     'stripe/*',
-        //     'user/two-factor-authentication',
-        //     'crftoken',
-        //     'user/two-factor-qr-code'
+        //     'validateotp',
         // ]);        
     })
     ->withExceptions(function (Exceptions $exceptions): void {

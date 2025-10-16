@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import axios from 'axios';
+import jQuery from "jquery";
 
 const api = axios.create({
    baseURL: "http://localhost:8000",
@@ -11,46 +12,55 @@ export default function Mfa() {
   const [otp, setOtp] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [userid, setUserid] = useState<string>('');
+  const [token, setToken] = useState<string>('');
+  const [isDisabled, setIsdisabled] = useState<boolean>(false);
 
   useEffect(() => {
     const uid = sessionStorage.getItem('USERID');
     if (uid !== null) {
       setUserid(uid);
     }
+    const tokenz = sessionStorage.getItem('TOKEN');
+    if (tokenz !== null) {
+      setToken(tokenz);
+    }
+
   },[]);
 
-  const submitMfa = (event: any) => {
+  const submitMfa = async (event: any) => {
     event.preventDefault();
-    setMessage('please wait..');
-    const data =JSON.stringify({ id: userid, otp: otp });
-    api.post("/validateotp", data)
-    .then((res: any) => {
-        if (res.data.statuscode === 200) {
-          setMessage(res.data.message);
+    setMessage('please wait..');      
+    setIsdisabled(true);
+    const jsonData =JSON.stringify({ id: userid, otp: otp });
+    await api.patch("/api/otpvalidation", jsonData, { headers: {
+      Authorization: `Bearer ${token}`
+    }})
+    .then((res) => {
+            setMessage(res.data.message);
             sessionStorage.setItem("USERNAME", res.data.username);
-            window.setTimeout(() => {
+            setTimeout(() => {
               setMessage('');
-              $("#mfaReset").click();
+              setOtp('');
+              setIsdisabled(false);
+              jQuery("#mfaReset").trigger('click');              
               window.location.reload();
             }, 3000);
-            return;
-        } else {
-          setMessage(res.data.message);
-          return;
-        }
-      }, (error) => {
-            setMessage(error.message);
-            window.setTimeout(() => {
+      }, (error: any) => {
+            setMessage(error.response.data.message);
+            setTimeout(() => {
               setMessage('');
+              setIsdisabled(false);
+              setOtp('');
             }, 3000);
             return;
-    });        
+    });              
   }
 
   const closeMfa = (event: any) => {
     event.preventDefault();
     setMessage('');
     setOtp('');
+    setIsdisabled(false);
     sessionStorage.removeItem('USERID');
     sessionStorage.removeItem('USERNAME');
     sessionStorage.removeItem('USERPIC');
@@ -74,11 +84,11 @@ export default function Mfa() {
           <div className="modal-body">
           <form onSubmit={submitMfa} autoComplete="off">
             <div className="mb-3">
-              <input type="text" required value={otp} onChange={e => setOtp(e.target.value)} className="form-control" id="otp" placeholder="enter 6-digin OTP code"/>
+              <input type="text" required={true} value={otp} onChange={e => setOtp(e.target.value)} className="form-control" id="otp" disabled={isDisabled} placeholder="enter 6-digin OTP code"/>
             </div>          
             <div className="mb-3">
-              <button type="submit" className="btn btn-info mx-2 text-dark">submit</button>
-              <button onClick={resetMfa} type="reset" className="btn btn-info text-dark">reset</button>
+              <button type="submit" className="btn btn-info mx-2 text-dark" disabled={isDisabled}>submit</button>
+              <button id="mfaReset" onClick={resetMfa} type="reset" className="btn btn-info text-dark">reset</button>
             </div>
           </form>            
           </div>

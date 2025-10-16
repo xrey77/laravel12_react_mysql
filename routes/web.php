@@ -21,8 +21,14 @@ Route::get('/profile', function () {
     return inertia('Profile');
 });
 
+Route::get('/productlist', function () {
+    return inertia('Prodlist');
+});
 
-Route::middleware('auth')->group(function () {
-    Route::get('/2fa/enable', [TwoFactorController::class, 'showEnableForm'])->name('2fa.enable');
-    Route::post('/2fa/confirm', [TwoFactorController::class, 'confirmEnable'])->name('2fa.confirm');
+Route::get('/productcatalog', function () {
+    return inertia('Prodcatalog');
+});
+
+Route::get('/productsearch', function () {
+    return inertia('Prodsearch');
 });
