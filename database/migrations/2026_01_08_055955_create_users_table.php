@@ -11,6 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->timestamps();
+        });                        
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('firstname')->nullable();
@@ -19,7 +25,7 @@ return new class extends Migration
             $table->string('mobile')->nullable();
             $table->string('username')->unique();
             $table->text('password')->nullable();
-            $table->string('roles')->nullable();
+            $table->integer('role_id')->default(0);
             $table->string('profilepic')->nullable();
             $table->integer('isactivated')->default(0);
             $table->integer('isblocked')->default(0);
@@ -28,6 +34,15 @@ return new class extends Migration
             $table->text('secretkey')->nullable();
             $table->timestamps();
         });
+
+
+        Schema::create('role_user', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('role_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
+
     }
 
     /**
@@ -35,6 +50,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('role_user');        
         Schema::dropIfExists('users');
     }
 };

@@ -50,7 +50,11 @@ export default function Signin() {
     
             }
       }, (error: any) => {
-            setMessage(error.response.data.message);
+            if (error.response) {
+              setMessage(error.response.data.message);
+            } else {
+              setMessage(error.message);
+            }
             setTimeout(() => {
               setMessage('');
               setIsdisable(false);
@@ -85,10 +89,10 @@ export default function Signin() {
       <div className="modal-body">
         <form onSubmit={submitLogindata} autoComplete='off'>
             <div className="mb-3">
-                <input type="text" required value={username} onChange={e => setUsername(e.target.value)} className="form-control" id="uname" disabled={isdisable} placeholder="enter Username"/>
+                <input type="text" required value={username} onChange={e => setUsername(e.target.value)} className="form-control border-primary" id="uname" disabled={isdisable} placeholder="enter Username"/>
             </div>            
             <div className="mb-3">
-                <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="form-control" id="pword" disabled={isdisable} placeholder="enter Password"/>
+                <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="form-control border-primary" id="pword" disabled={isdisable} placeholder="enter Password"/>
             </div>            
             <button type="submit" className="btn btn-primary mx-1" disabled={isdisable}>signin</button>
             <button id="loginReset" type="reset" onClick={resetLogin} className="btn btn-primary">reset</button>

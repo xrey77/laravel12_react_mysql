@@ -36,16 +36,19 @@ class RegisterController extends Controller
         }
 
         try {
-            User::create ([
-                'lastname' => $lastname,
+            $roleId = 2;
+            $user = User::create ([
                 'firstname' => $firstname,
+                'lastname' => $lastname,
                 'email' => $email,
                 'mobile' => $mobile,
                 'username' => $username,
                 'password' => $password,
-                'roles' => 'USER',
+                'role_id' => $roleId,
                 'profilepic' => 'http://127.0.0.1:8000/images/pix.png',
             ]);
+            $user->roles()->attach($roleId);
+
         } 
         catch (\Exception $e) 
         {            

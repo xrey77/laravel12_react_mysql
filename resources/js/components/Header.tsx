@@ -40,7 +40,6 @@ export default function Header() {
 <nav className="navbar navbar-expand-lg bg-body-tertiary">
   <div className="container-fluid">
     <Link className="navbar-brand" href="/"><img className="logo" src="/images/logo.png" alt=""/></Link>
-    {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> */}
     <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">   
       <span className="navbar-toggler-icon"></span>
     </button>
@@ -56,8 +55,10 @@ export default function Header() {
           <ul className="dropdown-menu">
             <li><Link className="dropdown-item" href="/productlist">Products List</Link></li>
             <li><Link className="dropdown-item" href="/productcatalog">Products Catalog</Link></li>
-            <li><hr className="dropdown-divider"/></li>
             <li><Link className="dropdown-item" href="/productsearch">Product Search</Link></li>
+            <li><hr className="dropdown-divider"/></li>
+            <li><Link className="dropdown-item" href="/pdfreport">Product Report(pdf)</Link></li>
+            <li><Link className="dropdown-item" href="/saleschart">Sales Chart</Link></li>
           </ul>
         </li>
         <li className="nav-item">
@@ -91,11 +92,11 @@ export default function Header() {
 </nav>
 {/*  OFF-CANVAS */}
 <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex={-1} id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-    <div className="offcanvas-header bg-primary">
+    <div className="offcanvas-header bg-danger">
       <h5 className="offcanvas-title text-white" id="offcanvasWithBothOptionsLabel">Drawer Menu</h5>
       <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>    
       </div>
-    <div className="offcanvas-body bg-danger">
+    <div className="offcanvas-body bg-primary">
   
       <ul className="nav flex-column">
         <li className="nav-item" data-bs-dismiss="offcanvas">
@@ -111,9 +112,18 @@ export default function Header() {
               <Link className="dropdown-item" href="/productlist">Product List</Link></li>
             <li data-bs-dismiss="offcanvas">
               <Link className="dropdown-item" href="/productcatalog">Product Catalogs</Link></li>
-            <li><hr className="dropdown-divider"/></li>
             <li data-bs-dismiss="offcanvas">
               <Link className="dropdown-item" href="/productsearch">Product Search</Link></li>
+              <li><hr className="dropdown-divider"/></li>
+
+              <li data-bs-dismiss="offcanvas">
+              <Link className="dropdown-item" href="/pdfreport">Products Report</Link></li>
+              <li><hr className="dropdown-divider"/></li>
+
+              <li data-bs-dismiss="offcanvas">
+              <Link className="dropdown-item" href="/saleschart">Sales Chart</Link></li>
+              <li><hr className="dropdown-divider"/></li>
+
           </ul>
         </li>
         <li><hr/></li>

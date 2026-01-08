@@ -8,9 +8,11 @@
     },
     "devDependencies": {
         "@laravel/vite-plugin-wayfinder": "^0.1.7",
+        "@types/chart.js": "^2.9.41",
         "@types/react": "^19.2.2",
         "@types/react-dom": "^19.2.1",
         "axios": "^1.11.0",
+        "baseline-browser-mapping": "^2.9.12",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^2.0.0",
         "typescript": "^5.9.3",
@@ -25,10 +27,12 @@
         "@types/node": "^24.7.2",
         "@vitejs/plugin-react": "^4.6.0",
         "bootstrap": "^5.3.8",
+        "chart.js": "^4.5.1",
         "crypto-js": "^4.2.0",
         "jquery": "^3.7.1",
         "qrcode.react": "^4.2.0",
         "react": "^19.2.0",
+        "react-chartjs-2": "^5.3.1",
         "react-dom": "^19.2.0",
         "react-router-dom": "^7.9.4"
     }

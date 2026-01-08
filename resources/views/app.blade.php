@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">    
-    <title>Laravel React App</title>
+    <title>Diebold-Nixdorf</title>
     @viteReactRefresh
     @vite('resources/js/app.tsx')
     @inertiaHead

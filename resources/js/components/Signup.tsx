@@ -28,7 +28,11 @@ export default function Signup() {
             setMessage('');
           }, 3000);
       }, (error: any) => {
-        setMessage(error.response.data.message);
+            if (error.response) {
+              setMessage(error.response.data.message);
+            } else {
+              setMessage(error.message);
+            }
             window.setTimeout(() => {
               setMessage('');
             }, 3000);
@@ -60,12 +64,12 @@ export default function Signup() {
             <div className='row'>
                 <div className='col'>
                   <div className="mb-3">
-                    <input type="text" required value={firstname} onChange={e => setFirstname(e.target.value)} className="form-control" id="fname" placeholder="enter First Name"/>
+                    <input type="text" required value={firstname} onChange={e => setFirstname(e.target.value)} className="form-control border-info" id="fname" placeholder="enter First Name"/>
                   </div>            
                 </div>
                 <div className='col'>
                   <div className="mb-3">
-                    <input type="text" required value={lastname} onChange={e => setLastname(e.target.value)} className="form-control" id="lname" placeholder="enter Last Name"/>
+                    <input type="text" required value={lastname} onChange={e => setLastname(e.target.value)} className="form-control border-info" id="lname" placeholder="enter Last Name"/>
                   </div>            
                 </div>
             </div>
@@ -73,12 +77,12 @@ export default function Signup() {
             <div className='row'>
                 <div className='col'>
                   <div className="mb-3">
-                    <input type="email" required value={email} onChange={e => setEmail(e.target.value)} className="form-control" id="email" placeholder="enter Email Address"/>
+                    <input type="email" required value={email} onChange={e => setEmail(e.target.value)} className="form-control border-info" id="email" placeholder="enter Email Address"/>
                   </div>            
                 </div>
                 <div className='col'>
                   <div className="mb-3">
-                    <input type="text" required value={mobile} onChange={e => setMobile(e.target.value)} className="form-control" id="mobile" placeholder="enter Mobile No."/>
+                    <input type="text" required value={mobile} onChange={e => setMobile(e.target.value)} className="form-control border-info" id="mobile" placeholder="enter Mobile No."/>
                   </div>            
                 </div>
             </div>
@@ -86,17 +90,17 @@ export default function Signup() {
             <div className='row'>
                 <div className='col'>
                   <div className="mb-3">
-                    <input type="text" required value={username} onChange={e => setUsername(e.target.value)} className="form-control" id="uname" placeholder="enter Username"/>
+                    <input type="text" required value={username} onChange={e => setUsername(e.target.value)} className="form-control border-info" id="uname" placeholder="enter Username"/>
                   </div>            
                 </div>
                 <div className='col'>
                   <div className="mb-3">
-                    <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="form-control" id="pword" placeholder="enter Password"/>
+                    <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="form-control border-info" id="pword" placeholder="enter Password"/>
                   </div>            
                 </div>
             </div>
-            <button type="submit" className="btn btn-primary mx-1">signup</button>
-            <button id="registerReset" type="reset" className="btn btn-primary">reset</button>
+            <button type="submit" className="btn btn-info mx-1">signup</button>
+            <button id="registerReset" type="reset" className="btn btn-info">reset</button>
         </form>        
       </div>
       <div className="modal-footer">

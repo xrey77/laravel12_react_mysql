@@ -77,7 +77,15 @@ export default function Profile() {
                 setQrcodeurl(data.user.qrcodeurl)
             }
             setUserpicture(res.data.user.profilepic);
-            });
+            },
+        (error: any) => {
+            setProfileMsg(error.response.data.message);
+            setTimeout(() => {
+                setProfileMsg('');
+            },3000);
+            return;
+        });
+
     };    
 
     useEffect(() => {
@@ -95,7 +103,6 @@ export default function Profile() {
             setToken('');
         }
         fetchUserData(userId, xtoken);
-        // getCRFtoken();
     },[]) 
 
     const submitProfile = (e: any) => {
@@ -107,17 +114,15 @@ export default function Profile() {
         .then((res: any) => {
             if (res.data.message != null) {
                 setProfileMsg(res.data.message);
-                let timer: any = setTimeout(() => {
+                setTimeout(() => {
                     setProfileMsg('');
-                    clearTimeout(timer);
                 },3000);
                 return;
             }
         }, (error: any) => {
             setProfileMsg(error.response.data.message);
-            let timer: any = setTimeout(() => {
+            setTimeout(() => {
                 setProfileMsg('');
-                clearTimeout(timer);
             },3000);
             return;
         });
@@ -173,46 +178,14 @@ export default function Profile() {
         }
     }
 
-    const getCRFtoken = () => {
-        // const crftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        var csrfToken = jQuery('meta[name="csrf-token"]').attr('content');
-        // console.log("xcrftoken : ",csrfToken);
-        // mfaApi.defaults.withCredentials = true;
-        // mfaApi.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
-        mfaApi.get('/api/crftoken'), { headers: {
-                Authorization: `Bearer ${token}`,
-        }}
-        .then((res) => {
-            console.log("x-csrf-token...............");
-            console.log(res.data);
-            // mfaApi.post('/user/two-factor-authentication', {headers: {
-            //     'X-CSRF-TOKEN': csrfToken
-            // }})
-            // .then(res => {
-            //     alert("stop");
-            //     console.log("TWO FACTOR ENABLED.............");
-            // }, (error: any) => {
-            //     console.log(error.response.data.message);
-            // })
 
-
-
-        }, (error: any) => {
-            setProfileMsg(error.response.data.message);
-            // setTimeout(() => {
-            //     setProfileMsg('');
-            // },3000);
-            return;
-        });
-
-    }
     const enableMFA = () => {
         // const csrfToken = jQuery('meta[name="csrf-token"]').attr('content');
         const jsonData =JSON.stringify({ Twofactorenabled: true });      
         mfaApi.patch(`/api/enablemfa/${userid}`, jsonData, {headers: {
             Authorization: `Bearer ${token}`
         }})
-        .then((res) => {
+        .then((res: any) => {
             setProfileMsg(res.data.message);            
             setTimeout(() => {
                 setQrcodeurl(res.data.qrcodeurl);
@@ -220,10 +193,14 @@ export default function Profile() {
             },6000);
 
         }, (error: any) => {
-            setProfileMsg(error.response.data.message);
-            // setTimeout(() => {
-            //     setProfileMsg('');
-            // },6000);
+            if (error.response) {
+                setProfileMsg(error.response.data.message);
+            } else {
+                setProfileMsg(error.message);
+            }
+            setTimeout(() => {
+                setProfileMsg('');
+            },3000);
 
         })
     }
@@ -233,14 +210,18 @@ export default function Profile() {
         mfaApi.patch(`/api/enablemfa/${userid}`, data, {headers: {
             Authorization: `Bearer ${token}`
         }})
-        .then((res) => {
+        .then((res: any) => {
             setProfileMsg(res.data.message);
             setQrcodeurl('http://127.0.0.1:8000/images/qrcode.png');
             setTimeout(() => {
                 setProfileMsg('');
             },3000);
         }, (error: any) => {
-            setProfileMsg(error.response.data.message);            
+            if (error.response) {
+                setProfileMsg(error.response.data.message);
+            } else {
+                setProfileMsg(error.message);
+            }
             setTimeout(() => {
                 setProfileMsg('');
             },3000);
@@ -252,26 +233,23 @@ export default function Profile() {
         event.preventDefault();
         if (newpassword === '') {
             setProfileMsg("Please enter new Pasword.");
-            let timer: any = setTimeout(() => {
+            setTimeout(() => {
                 setProfileMsg('');
-                clearTimeout(timer);
             },3000);
             return;
         }
         if (confnewpassword === '') {
             setProfileMsg("Please enter new Pasword confirmation.");
-            let timer: any = setTimeout(() => {
+            setTimeout(() => {
                 setProfileMsg('');
-                clearTimeout(timer);
             },3000);
             return;            
         }
 
         if (newpassword !== confnewpassword) {
             setProfileMsg("new Password does not matched.");
-            let timer: any = setTimeout(() => {
+            setTimeout(() => {
                 setProfileMsg('');
-                clearTimeout(timer);
             },3000);
             return;            
         }
@@ -283,17 +261,19 @@ export default function Profile() {
         .then((res: any) => {
             if (res.data.message != null) {
                 setProfileMsg(res.data.message);
-                let timer: any = setTimeout(() => {
+                setTimeout(() => {
                     setProfileMsg('');
-                    clearTimeout(timer);
                 },3000);
                 return;
             }
         }, (error: any) => {
-            setProfileMsg(error.response.data.message);
-            let timer: any = setTimeout(() => {
+            if (error.response) {
+                setProfileMsg(error.response.data.message);
+            } else {
+                setProfileMsg(error.message);
+            }            
+            setTimeout(() => {
                 setProfileMsg('');
-                clearTimeout(timer);
             },3000);
             return;
         });        

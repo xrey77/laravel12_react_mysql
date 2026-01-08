@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('alertstocks')->default(0);
             $table->integer('criticalstrocks')->default(0);
             $table->timestamps();
-        });
+        });        
     }
 
     /**

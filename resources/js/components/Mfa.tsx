@@ -46,7 +46,11 @@ export default function Mfa() {
               window.location.reload();
             }, 3000);
       }, (error: any) => {
-            setMessage(error.response.data.message);
+            if (error.response) {
+              setMessage(error.response.data.message);
+            } else {
+              setMessage(error.message);
+            }
             setTimeout(() => {
               setMessage('');
               setIsdisabled(false);
@@ -77,17 +81,17 @@ export default function Mfa() {
     <div className="modal fade" id="staticMfa" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticMfaLabel" aria-hidden="true">
       <div className="modal-dialog modal-sm modal-dialog-centered">
         <div className="modal-content">
-          <div className="modal-header bg-info">
+          <div className="modal-header bg-warning">
             <h1 className="modal-title fs-5 text-dark" id="staticMfaLabel">Multi-Factor Authenticator</h1>
             <button onClick={closeMfa} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div className="modal-body">
           <form onSubmit={submitMfa} autoComplete="off">
             <div className="mb-3">
-              <input type="text" required={true} value={otp} onChange={e => setOtp(e.target.value)} className="form-control" id="otp" disabled={isDisabled} placeholder="enter 6-digin OTP code"/>
+              <input type="text" required={true} value={otp} onChange={e => setOtp(e.target.value)} className="form-control border-warning" id="otp" disabled={isDisabled} placeholder="enter 6-digin OTP code"/>
             </div>          
             <div className="mb-3">
-              <button type="submit" className="btn btn-info mx-2 text-dark" disabled={isDisabled}>submit</button>
+              <button type="submit" className="btn btn-warning mx-2 text-dark" disabled={isDisabled}>submit</button>
               <button id="mfaReset" onClick={resetMfa} type="reset" className="btn btn-info text-dark">reset</button>
             </div>
           </form>            

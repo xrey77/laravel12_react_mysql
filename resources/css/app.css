@@ -1,6 +1,7 @@
 body {
     margin-top: -10px;
 }
+
 .user {
     width: 40px;
     height: 40px;
@@ -34,7 +35,7 @@ body {
 }
 
 #offcanvasWithBothOptions {
-    width: 60% !important;
+    width: 40% !important;
   }
   .footer {
     margin-top: 10px !important
@@ -75,6 +76,7 @@ body {
 
   .contact {
     width: 100% !important;
+    height: 45vh !important;
     border-radius: 20px;
   }
 .contact-text {
@@ -83,3 +85,12 @@ body {
 .home-text {
     text-align: justify;
 }
+
+@media (max-width: 991.98px) { 
+  .contact {
+    width: 100% !important;
+    height: 50% !important;
+    border-radius: 20px;
+  }
+
+ }

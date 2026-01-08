@@ -32,7 +32,11 @@ export default function Prodsearch() {
             setMessage('');
         }, 1000);
       }, (error: any) => {
-          setMessage(error.response.data.message);
+          if (error.response) {
+            setMessage(error.response.data.message);
+          } else {
+            setMessage(error.message);            
+          }
           setTimeout(() => {
               setMessage('');
               setProdsearch([]);

@@ -10,6 +10,8 @@ use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use App\Http\Controllers\ChartController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -31,3 +33,5 @@ Route::get('/getallusers', [UserController::class, 'getAllusers']);
 Route::get('/getuserid/{id}', [UserController::class, 'getUserbydid']);
 Route::get('/productlist/{page}', [ProductsController::class, 'listProducts']);
 Route::get('/productsearch/{key}', [ProductsController::class, 'productSearch']);
+Route::get('/chartdata', [ChartController::class, 'generateChart']);
+

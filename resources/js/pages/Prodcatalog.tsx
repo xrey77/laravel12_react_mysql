@@ -46,8 +46,15 @@ export default function Prodcatalog() {
         setTotpage(data.totpage);
         setPage(data.page);
       }, (error: any) => {
+            if (error.response) {
               setMessage(error.response.data.message);
-              return;
+            } else {
+              setMessage(error.message);
+            }
+            setTimeout(() => {
+                setMessage('');
+            }, 3000);
+            return;
       });      
     }
 
