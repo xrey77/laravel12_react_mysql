@@ -17,10 +17,30 @@ use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 use Exception;
 use Image;
+use OpenApi\Attributes as OA;
+
 
 class UserController extends Controller
 {
 
+    #[OA\Post(
+        path: '/api/logout',
+        operationId: 'userLogout',
+        summary: 'Logout current user',
+        description: 'Deletes the current access token',
+        security: [['bearerAuth' => []]],
+        tags: ['Authentication']
+    )]
+    #[OA\Response(
+        response: 200,
+        description: 'Logged out successfully.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'message', type: 'string', example: 'Logged out successfully.')
+            ]
+        )
+    )]
+    #[OA\Response(response: 401, description: 'Unauthenticated')]
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -29,6 +49,25 @@ class UserController extends Controller
         ],200);
     }
 
+    #[OA\Get(
+        path: '/api/getuserid/{id}',
+        summary: 'Retrieve by user id',
+        security: [['sanctum' => []]],
+        tags: ['Users'],
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                in: 'path',
+                description: 'ID of the user to retrieve',
+                required: true,
+                schema: new OA\Schema(type: 'string')
+            )
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'User Authenticated Successfully'),
+            new OA\Response(response: 401, description: 'Un-Authorized Access')
+        ]
+    )]      
     public function getUserbydid(string $id) {
         if (Auth::guard('sanctum')->check()) {
             $user = User::find($id);
@@ -39,6 +78,15 @@ class UserController extends Controller
         }
     }
 
+    #[OA\Get(
+        path: '/api/getallusers',
+        summary: 'Get all users',
+        security: [['sanctum' => []]],
+        tags: ['Users'],
+    )]
+    #[OA\Response(response: 200, description: 'User Authenticated Successfully')]
+    #[OA\Response(response: 401, description: 'Un-Authorized Access')]
+    #[OA\Response(response: 404, description: 'Users is empty')]
     public function getAllusers() {
         if (Auth::guard('sanctum')->check()) {
             $users = User::all();
@@ -51,6 +99,26 @@ class UserController extends Controller
         }
     }
 
+    #[OA\Put(
+        path: '/api/profileupdate/{id}',
+        summary: 'Update user details',
+        security: [['sanctum' => []]],
+        tags: ['Users'],
+    )]
+    #[OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string'))]
+    #[OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'firstname', type: 'string'),
+                new OA\Property(property: 'lastname', type: 'string'),
+                new OA\Property(property: 'mobile', type: 'string'),
+            ]
+        )
+    )]
+    #[OA\Response(response: 200, description: 'Profile updated successfully')]
+    #[OA\Response(response: 401, description: 'Un-Authorized Access')]
+    #[OA\Response(response: 404, description: 'User not found')]
     public function updateUser(string $id, Request $request) {
         if (Auth::guard('sanctum')->check()) {
             $user = User::find($id);
@@ -67,6 +135,15 @@ class UserController extends Controller
         }
     }
 
+    #[OA\Delete(
+        path: '/api/deleteuser/{id}',
+        summary: 'Delete a user',
+        security: [['sanctum' => []]],
+        tags: ['Users'],
+    )]
+    #[OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))]
+    #[OA\Response(response: 200, description: 'User Deleted successfully')]
+    #[OA\Response(response: 401, description: 'Un-Authorized Access')]    
     public function deleteUser(int $id) {
         if (Auth::guard('sanctum')->check()) {
             $user = User::findOrFail($id);
@@ -77,6 +154,27 @@ class UserController extends Controller
         }
     }
 
+    #[OA\Post(
+        path: '/api/changepassword/{id}',
+        summary: 'Change user password',
+        security: [['sanctum' => []]],
+        tags: ['Users'],
+    )]
+    #[OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))]
+    #[OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            required: ['password'],
+            properties: [
+                new OA\Property(property: 'password', type: 'string', format: 'password', example: 'newpassword123')
+            ]
+        )
+    )]
+    #[OA\Response(
+        response: 200, 
+        description: 'Success', 
+        content: new OA\JsonContent(properties: [new OA\Property(property: 'message', type: 'string')])
+    )]
     public function changeUserpassword(int $id, Request $request)
     {
         if (Auth::guard('sanctum')->check()) {
@@ -89,6 +187,26 @@ class UserController extends Controller
         }
     }
 
+    #[OA\Post(
+        path: '/api/uploadpicture/{id}',
+        summary: 'Update profile picture',
+        tags: ['Users'],        
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: new OA\MediaType(
+            mediaType: 'multipart/form-data',
+            schema: new OA\Schema(
+                required: ['id', 'profilepic'],
+                properties: [
+                    new OA\Property(property: 'id', type: 'integer', example: 1),
+                    new OA\Property(property: 'profilepic', type: 'string', format: 'binary')
+                ]
+            )
+        )
+    )]
+    #[OA\Response(response: 200, description: 'Picture uploaded')]
+    #[OA\Response(response: 404, description: 'User or Image not found')]
     public function updateProfilepicture(Request $request) 
     {
         $userid = $request->id;
@@ -128,8 +246,22 @@ class UserController extends Controller
 
     }
 
-
-
+    // MFA Toggle
+    #[OA\Post(
+        path: '/api/mfa/activate/{id}',
+        summary: 'Enable/Disable MFA', 
+        security: [['sanctum' => []]], 
+        tags: ["Authentication"]
+        )]
+    #[OA\RequestBody(content: new OA\JsonContent(properties: [new OA\Property(property: 'Twofactorenabled', type: 'boolean', example: true)]))]
+    #[OA\Response(
+        response: 200, 
+        description: 'MFA Status Updated',
+        content: new OA\JsonContent(properties: [
+            new OA\Property(property: 'message', type: 'string'),
+            new OA\Property(property: 'qrcodeurl', type: 'string', nullable: true)
+        ])
+    )]
     public function enableMfa($id, Request $request) {
         if (Auth::guard('sanctum')->check()) {
             $user = User::find($id);
@@ -180,6 +312,23 @@ class UserController extends Controller
         }
     }
 
+    // Validate OTP
+    #[OA\Post(
+        path: '/api/mfa/verifytotp/{id}',
+        summary: 'Validate OTP code',
+        tags: ["Authentication"]
+        )]
+    #[OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            required: ['id', 'otp'],
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: 1),
+                new OA\Property(property: 'otp', type: 'string', example: '123456')
+            ]
+        )
+    )]
+    #[OA\Response(response: 200, description: 'OTP Validated')]
     public function validateOtp(Request $request) {
             $user = User::find($request->id);
             if ($user) {

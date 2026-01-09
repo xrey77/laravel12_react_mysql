@@ -6,9 +6,59 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OA;
 
 class RegisterController extends Controller
 {
+
+    /**
+     * Register a new user.
+     */
+    #[OA\Post(
+        path: "/api/register",
+        summary: "Register a new user",
+        tags: ["Authentication"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["email", "username", "password"],
+                properties: [
+                    new OA\Property(property: "firstname", type: "string", example: "John"),
+                    new OA\Property(property: "lastname", type: "string", example: "Doe"),
+                    new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
+                    new OA\Property(property: "mobile", type: "string", example: "1234567890"),
+                    new OA\Property(property: "username", type: "string", example: "johndoe"),
+                    new OA\Property(property: "password", type: "string", format: "password", example: "Secret123")
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: "User registered successfully",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "User registered successfully."),
+                        new OA\Property(property: "firstname", type: "string"),
+                        new OA\Property(property: "lastname", type: "string"),
+                        new OA\Property(property: "email", type: "string"),
+                        new OA\Property(property: "mobile", type: "string"),
+                        new OA\Property(property: "username", type: "string"),
+                        new OA\Property(property: "password", type: "string")
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 400,
+                description: "Bad Request - Email or Username already taken",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Email Address is already taken.")
+                    ]
+                )
+            )
+        ]
+    )]    
     public function register(Request $request) 
     {
 

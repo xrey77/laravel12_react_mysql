@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\SigninController;
-use App\Http\Controllers\TwoFactorController;
+// use App\Http\Controllers\SigninController;
+// use App\Http\Controllers\TwoFactorController;
 use App\Http\Controllers\PdfController;
 
 Route::get('/', function () {
